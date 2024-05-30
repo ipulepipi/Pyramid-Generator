@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pyramid Generator</title>
+    <style>
+        #pyramid {
+            white-space: pre;
+            font-family: monospace;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            margin: 20 auto;
+            width: fit-content;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        input, button {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Pyramid Generator</h1>
+        <p>Have fun playing with it!</p>
+    </header>
+    <main>
+        <div>
+            <label for="charInput">Character: </label>
+            <input type="text" id="charInput" maxlength="1" value="#">
+        </div>
+        <div>
+            <label for="countInput">Count: </label>
+            <input type="number" id="countInput" min="1" value="10">
+        </div>
+        <div>
+            <label for="invertedInput">Inverted: </label>
+            <input type="checkbox" id="invertedInput">
+        </div>
+        <button onclick="generatePyramid()">Generate Pyramid</button>
+        <pre id="pyramid"></pre>
+        <a href="index.html">version 1</a>
+    </main>
+    <footer>
+        <p>Created by Ipule Pipi at freeCodeCamp</p>
+    </footer>
+
+    <script>
+        function padRow(rowNumber, rowCount, character) {
+            return " ".repeat(rowCount - rowNumber) + character.repeat(2 * rowNumber - 1) + " ".repeat(rowCount - rowNumber);
+        }
+
+        function generatePyramid() {
+            const character = document.getElementById('charInput').value || "#";
+            const count = parseInt(document.getElementById('countInput').value) || 10;
+            const inverted = document.getElementById('invertedInput').checked;
+
+            const rows = [];
+
+            for (let i = 1; i <= count; i++) {
+                if (inverted) {
+                    rows.unshift(padRow(i, count, character));
+                } else {
+                    rows.push(padRow(i, count, character));
+                }
+            }
+
+            let result = rows.join('\n');
+            document.getElementById('pyramid').textContent = result;
+        }
+
+        function handleEnterKey(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                generatePyramid();
+            }
+        }
+
+        // Add event listeners to inputs for Enter key
+        document.getElementById('charInput').addEventListener('keydown', handleEnterKey);
+        document.getElementById('countInput').addEventListener('keydown', handleEnterKey);
+        document.getElementById('invertedInput').addEventListener('keydown', handleEnterKey);
+
+
+        // Initial pyramid generation
+        generatePyramid();
+    </script>
+</body>
+</html>
